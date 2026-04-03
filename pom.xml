@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>bank-transactions</module>
+        <module>movie-ticket-counter-avro</module>
     </modules>
 
     <properties>

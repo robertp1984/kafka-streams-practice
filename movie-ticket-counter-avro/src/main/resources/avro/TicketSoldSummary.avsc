@@ -1,0 +1,18 @@
+{
+  "namespace": "org.softwarecave.movieticketcounter.avro",
+  "type": "record",
+  "name": "TicketSoldSummary",
+  "version": "1",
+  "fields": [
+    {
+      "name": "movieTitle",
+      "type": "string",
+      "doc": "The title of the movie"
+    },
+    {
+      "name": "ticketsSoldTotal",
+      "type": "long",
+      "doc": "The total number of tickets sold for this movie"
+    }
+  ]
+}

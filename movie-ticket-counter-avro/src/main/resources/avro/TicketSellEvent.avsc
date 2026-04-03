@@ -1,0 +1,28 @@
+{
+  "namespace": "org.softwarecave.movieticketcounter.avro",
+  "type": "record",
+  "name": "TicketSellEvent",
+  "version": "1",
+  "fields": [
+    {
+      "name": "movieTitle",
+      "type": "string",
+      "doc": "The title of the movie"
+    },
+    {
+      "name": "ticketCount",
+      "type": "int",
+      "doc": "The number of tickets sold in this transaction"
+    },
+    {
+      "name": "seats",
+      "type": {
+        "type": "array",
+        "items": "string"
+      },
+      "doc": "The list of seat numbers sold in this transaction"
+    }
+  ]
+}
+
+
