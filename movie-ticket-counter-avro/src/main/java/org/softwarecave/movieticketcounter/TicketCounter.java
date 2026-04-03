@@ -20,7 +20,9 @@ import org.apache.kafka.streams.state.KeyValueStore;
 import org.softwarecave.movieticketcounter.avro.TicketSellEvent;
 import org.softwarecave.movieticketcounter.avro.TicketSoldSummary;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
 
@@ -96,9 +98,13 @@ public class TicketCounter {
     }
 
     private TicketSoldSummary addToTicketSoldSummary(TicketSoldSummary summary, String k, TicketSellEvent v) {
+        var seatsSold = new ArrayList<>(summary.getSeatsSold());
+        seatsSold.addAll(v.getSeats());
+
         var result = TicketSoldSummary.newBuilder()
                 .setMovieTitle(k)
                 .setTicketsSoldTotal(summary.getTicketsSoldTotal() + v.getTicketCount())
+                .setSeatsSold(seatsSold)
                 .build();
         return result;
     }
@@ -107,6 +113,7 @@ public class TicketCounter {
         return TicketSoldSummary.newBuilder()
                 .setMovieTitle("")
                 .setTicketsSoldTotal(0L)
+                .setSeatsSold(List.of())
                 .build();
     }
 

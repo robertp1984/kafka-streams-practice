@@ -60,7 +60,8 @@ public class TicketCounterTest {
         assertThat(outputTopicMap).containsKey("Good Movie");
         assertThat(outputTopicMap.get("Good Movie"))
                 .hasFieldOrPropertyWithValue("movieTitle", "Good Movie")
-                .hasFieldOrPropertyWithValue("ticketsSoldTotal", 2L);
+                .hasFieldOrPropertyWithValue("ticketsSoldTotal", 2L)
+                .hasFieldOrPropertyWithValue("seatsSold", List.of("3A", "3B"));
     }
 
     @Test
@@ -73,20 +74,25 @@ public class TicketCounterTest {
         inputTopic.pipeInput(null, new TicketSellEvent("Medium Movie", 1, List.of("5A")));
         inputTopic.pipeInput(null, new TicketSellEvent("Good Movie", 4, List.of("6A", "6B", "6C", "6D")));
         inputTopic.pipeInput(null, new TicketSellEvent("Awesome Movie", 1, List.of("7A")));
-        inputTopic.pipeInput(null, new TicketSellEvent("Good Movie", 5, List.of("6A", "6B", "6D", "6E", "6F")));
+        inputTopic.pipeInput(null, new TicketSellEvent("Good Movie", 5, List.of("8A", "8B", "8D", "8E", "8F")));
 
         var outputTopicMap = outputTopic.readKeyValuesToMap();
         assertThat(outputTopicMap.size()).isEqualTo(3);
-        assertThat(outputTopicMap).containsKey("Good Movie");
+
         assertThat(outputTopicMap.get("Good Movie"))
                 .hasFieldOrPropertyWithValue("movieTitle", "Good Movie")
-                .hasFieldOrPropertyWithValue("ticketsSoldTotal", 11L);
+                .hasFieldOrPropertyWithValue("ticketsSoldTotal", 11L)
+                .hasFieldOrPropertyWithValue("seatsSold", List.of("3A", "3B", "6A", "6B", "6C", "6D", "8A", "8B", "8D", "8E", "8F"));
+
         assertThat(outputTopicMap.get("Medium Movie"))
                 .hasFieldOrPropertyWithValue("movieTitle", "Medium Movie")
-                .hasFieldOrPropertyWithValue("ticketsSoldTotal", 3L);
+                .hasFieldOrPropertyWithValue("ticketsSoldTotal", 3L)
+                .hasFieldOrPropertyWithValue("seatsSold", List.of("4F", "4G", "5A"));
+
         assertThat(outputTopicMap.get("Awesome Movie"))
                 .hasFieldOrPropertyWithValue("movieTitle", "Awesome Movie")
-                .hasFieldOrPropertyWithValue("ticketsSoldTotal", 1L);
+                .hasFieldOrPropertyWithValue("ticketsSoldTotal", 1L)
+                .hasFieldOrPropertyWithValue("seatsSold", List.of("7A"));
     }
 
     private TestInputTopic<String, TicketSellEvent> createInputTopic() {

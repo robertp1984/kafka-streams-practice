@@ -13,6 +13,15 @@
       "name": "ticketsSoldTotal",
       "type": "long",
       "doc": "The total number of tickets sold for this movie"
+    },
+    {
+      "name": "seatsSold",
+      "type": {
+        "type": "array",
+        "items": "string"
+      },
+      "default": [],
+      "doc": "The list of all seat numbers sold for this movie"
     }
   ]
 }
