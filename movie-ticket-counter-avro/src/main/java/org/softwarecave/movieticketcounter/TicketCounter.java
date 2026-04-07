@@ -64,8 +64,6 @@ public class TicketCounter {
         Properties props = new Properties();
         props.put(StreamsConfig.APPLICATION_ID_CONFIG, "movie-ticket-counter-avro");
         props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092");
-        props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
-        props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         props.put(StreamsConfig.PROCESSING_GUARANTEE_CONFIG, StreamsConfig.EXACTLY_ONCE_V2);
         props.put(SCHEMA_REGISTRY_URL_CONFIG, "http://localhost:8081");
@@ -74,6 +72,7 @@ public class TicketCounter {
 
     Topology createTopology(Properties config, SpecificAvroSerde<TicketSellEvent> ticketSellEventSerde, SpecificAvroSerde<TicketSoldSummary> ticketSoldSummarySerde) {
         Serde<String> stringSerde = Serdes.String();
+        TicketSoldSummary initialTicketSoldSummary  = createInitialTicketSoldSummary();
 
         StreamsBuilder builder = new StreamsBuilder();
 
@@ -86,7 +85,7 @@ public class TicketCounter {
                         && v.getTicketCount() == v.getSeats().size())
                 .selectKey((k, v) -> v.getMovieTitle())
                 .groupByKey()
-                .aggregate(this::createInitialTicketSoldSummary,
+                .aggregate(() -> initialTicketSoldSummary,
                         (k, v, summary) -> addToTicketSoldSummary(summary, k, v),
                         Materialized.<String, TicketSoldSummary, KeyValueStore<Bytes, byte[]>>as("aggr")
                                 .withKeySerde(Serdes.String())

@@ -16,4 +16,4 @@ kafka-console-consumer --bootstrap-server kafka1:29092 --topic bank.transactions
 4. Run the Kafka Producer application class BankTransactionProducer from IDE to send the random bank transactions to the input topic. 
 
 
-5. Run the Kafka Streams application class BankTransactionAggregator from IDE to start the stream processing and see the aggregated transactions in the output topic.
+5. Run the Kafka Streams application class BankTransactionAggregator or BankTransactionAggregator2 from IDE to start the stream processing and see the aggregated transactions in the output topic.

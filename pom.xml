@@ -11,6 +11,7 @@
     <modules>
         <module>bank-transactions</module>
         <module>movie-ticket-counter-avro</module>
+        <module>common</module>
     </modules>
 
     <properties>
