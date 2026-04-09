@@ -1,11 +1,11 @@
 1. Create the input topic which will be used to send the bank transactions to the Kafka cluster.
 ```bash
-kafka-topics --bootstrap-server kafka1:29092 --create --topic bank.transactions --partitions 3 --replication-factor 3
+kafka-topics --bootstrap-server kafka1:29092 --create --topic bank.transactions --partitions 9 --replication-factor 3
 ```
 
 2. Create the compact output topic which will be used to send the aggregated transactions to the Kafka cluster.
 ```bash
-kafka-topics --bootstrap-server kafka1:29092 --create --topic bank.transactions.aggregated --partitions 3 --replication-factor 3 --config cleanup.policy=compact
+kafka-topics --bootstrap-server kafka1:29092 --create --topic bank.transactions.aggregated --partitions 9 --replication-factor 3 --config cleanup.policy=compact
 ```
 
 3. Monitor the output topic to see the aggregated transactions.

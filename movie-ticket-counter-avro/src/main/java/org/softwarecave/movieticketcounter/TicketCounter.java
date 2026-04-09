@@ -31,8 +31,8 @@ import static io.confluent.kafka.serializers.AbstractKafkaSchemaSerDeConfig.SCHE
 @Slf4j
 public class TicketCounter {
 
-    public static final String INPUT_TOPIC = "ticket-sell-event";
-    public static final String OUTPUT_TOPIC = "ticket-sold-summary";
+    public static final String INPUT_TOPIC = "ticket.sellEvent";
+    public static final String OUTPUT_TOPIC = "ticket.soldSummary";
 
     public static void main() throws InterruptedException {
         TicketCounter ticketCounter = new TicketCounter();
@@ -65,6 +65,8 @@ public class TicketCounter {
         props.put(StreamsConfig.APPLICATION_ID_CONFIG, "movie-ticket-counter-avro");
         props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092");
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+        props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
+        props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
         props.put(StreamsConfig.PROCESSING_GUARANTEE_CONFIG, StreamsConfig.EXACTLY_ONCE_V2);
         props.put(SCHEMA_REGISTRY_URL_CONFIG, "http://localhost:8081");
         return props;
